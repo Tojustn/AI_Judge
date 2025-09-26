@@ -34,8 +34,8 @@ const QueuePage = () => {
     return <div className="p-4 text-gray-500">Queue Does Not Exist.</div>;
   }
   return (
-    <div className = "h-full w-full">
-      <h1>{submission.queueId}</h1>
+    <div className = "h-full w-full m-4">
+      <h1 className = "text-xl ">{submission.queueId}</h1>
       <div className = "">
       <QuestionListComponent questions={questions}></QuestionListComponent>
       </div>

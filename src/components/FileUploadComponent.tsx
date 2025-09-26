@@ -5,7 +5,7 @@ import { Button } from "./Button";
 import { Upload } from "lucide-react";
 import { useAppState } from "../context/AppStateContext";
 
-const FileUpload = () => {
+const FileUploadComponent = () => {
   const { setAppState } = useAppState();
   const [file, setFile] = useState<File | null>(null);
 
@@ -35,7 +35,7 @@ const FileUpload = () => {
     <div>
       <form
         onSubmit={handleFileSubmit}
-        className="m-6 p-6 flex flex-col space-y-4 bg-gray-100"
+        className="m-6 p-6 flex flex-col space-y-4 bg-gray-100 dark:bg-slate-600 rounded-xl"
       >
         <h1 className="text-xl"><strong>Upload JSON File</strong></h1>
         <input
@@ -54,4 +54,4 @@ const FileUpload = () => {
   );
 };
 
-export default FileUpload;
+export default FileUploadComponent;

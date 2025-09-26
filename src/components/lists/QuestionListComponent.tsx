@@ -2,6 +2,7 @@ import type { Question } from "../../types/types";
 import { QuestionCard } from "../cards/QuestionCard";
 import React,{useEffect, useState} from 'react'
 import type { Judge } from "../../types/types";
+import { Button } from "../Button";
 import { getActiveJudges } from "../../services/supabase/judges";
 
 
@@ -24,12 +25,16 @@ const QuestionListComponent = ({ questions }: QuestionListProp) => {
             }
         }
 
+        fetchJudges();
     },[])
   return (
+    <div className = "flex flex-col">
     <div className="grid grid-cols-5">
       {questions.map((question) => (
         <QuestionCard key={question.id} judges={judges} question={question} />
       ))}
+    </div>
+    <Button>Save All Assignments</Button>
     </div>
   );
 };

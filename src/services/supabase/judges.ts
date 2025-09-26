@@ -40,3 +40,26 @@ export const deleteJudge = async(id: string) =>{
   .delete()
   .eq('id', id)
 }
+
+export const getAssignedJudgesByQuestion = async(questionId: string): Promise<Judge[]> => {
+  const { data, error } = await supabase
+    .from("JudgesQuestionsAssignment")
+    .select(`
+      judgeId,
+      judges (
+        id,
+        name,
+        targetModelName,
+        rubric,
+        active, createdAt
+      )
+    `)
+    
+    .eq("questionId", questionId);
+    
+  if (error) {
+    throw new Error(error.message || "Failed to Fetch Judges");
+  }
+  
+  return data?.flatMap(assignment => assignment.judges || []) || [];
+  }

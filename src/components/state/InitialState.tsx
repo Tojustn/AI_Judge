@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import FileUpload from "../FileUpload";
+import FileUploadComponent from "../FileUploadComponent";
 import { getSubmissions } from "../../services/supabase/submissions";
 import QueueList from "../lists/QueueListComponent";
 import type { Submission, Judge } from "../../types/types";
@@ -7,6 +7,7 @@ import { getJudges } from "../../services/supabase/judges";
 import JudgeListComponent from "../lists/JudgeListComponent";
 import { Button } from "../Button";
 import AddJudgeCard from "../cards/AddJudgeCard";
+import RunEvaluationsButton from "../RunEvaluationsButton";
 
 const InitialState = () => {
   const [queues, setQueues] = useState<Submission[]>([]);
@@ -43,7 +44,7 @@ const InitialState = () => {
         <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">
           Upload Submissions
         </h2>
-        <FileUpload />
+        <FileUploadComponent />
       </div>
 
       <div className="bg-white dark:bg-gray-800 rounded-2xl shadow p-6">
@@ -77,6 +78,9 @@ const InitialState = () => {
           </div>
         </div>
       )}
+      <div className = " flex flex-col justify-center">
+      <RunEvaluationsButton></RunEvaluationsButton>
+      </div>
     </div>
   );
 };

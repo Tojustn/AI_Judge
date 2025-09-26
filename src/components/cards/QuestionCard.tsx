@@ -1,5 +1,8 @@
 import type { Question } from "../../types/types";
 import type { Judge } from "../../types/types";
+import JudgeCheckboxDropdown from "../JudgeCheckboxDropdown";
+import {useState, useEffect} from "react"
+import { getAssignedJudgesByQuestion } from "../../services/supabase/judges";
 
 interface QuestionCardProps {
   question: Question;
@@ -7,6 +10,21 @@ interface QuestionCardProps {
 }
 
 export const QuestionCard = ({ question, judges}: QuestionCardProps) => {
+  const [selectedJudges, setSelectedJudges] = useState<Judge[]>([]);
+
+  useEffect(()=>{
+    const fetchInfo = async() => {
+      try{
+      const judges = await getAssignedJudgesByQuestion(question.id)
+      setSelectedJudges(judges)
+      }catch(error){
+        alert(error)
+      }
+    }
+
+    fetchInfo()
+  }, []) 
+
   return (
     <div className="border rounded-xl p-6 m-3 bg-white shadow-md hover:shadow-lg transition-shadow duration-300">
       
@@ -27,6 +45,7 @@ export const QuestionCard = ({ question, judges}: QuestionCardProps) => {
       <div className="border-t border-gray-100 pt-3 text-gray-500 text-xs">
         Submission ID: {question.submissionId}
       </div>
+      <JudgeCheckboxDropdown availableJudges={judges} selectedJudges={selectedJudges} setSelectedJudges={setSelectedJudges}></JudgeCheckboxDropdown>
     </div>
   );
 };
