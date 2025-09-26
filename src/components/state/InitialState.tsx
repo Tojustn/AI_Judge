@@ -1,0 +1,84 @@
+import React, { useState, useEffect } from "react";
+import FileUpload from "../FileUpload";
+import { getSubmissions } from "../../services/supabase/submissions";
+import QueueList from "../lists/QueueListComponent";
+import type { Submission, Judge } from "../../types/types";
+import { getJudges } from "../../services/supabase/judges";
+import JudgeListComponent from "../lists/JudgeListComponent";
+import { Button } from "../Button";
+import AddJudgeCard from "../cards/AddJudgeCard";
+
+const InitialState = () => {
+  const [queues, setQueues] = useState<Submission[]>([]);
+  const [judges, setJudges] = useState<Judge[]>([]);
+  const [judgeCard, setJudgeCard] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchInfo = async () => {
+      try {
+        const submissions = await getSubmissions();
+        setQueues(submissions || []);
+
+        const judges = await getJudges();
+        setJudges(judges || []);
+      } catch (error) {
+        alert(error);
+      }
+    };
+
+    fetchInfo();
+  }, []);
+
+  const handleAddJudge = () => {
+    setJudgeCard(true);
+  };
+
+  const handleCloseJudgeCard = () => {
+    setJudgeCard(false);
+  };
+
+  return (
+    <div className="relative w-full h-full flex flex-col gap-8 px-6 py-8 bg-gray-50 dark:bg-gray-900">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow p-6">
+        <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">
+          Upload Submissions
+        </h2>
+        <FileUpload />
+      </div>
+
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow p-6">
+        <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">
+          Queue List
+        </h2>
+        <QueueList queues={queues} />
+      </div>
+
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow p-6">
+        <div className="flex flex-row justify-between">
+          <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">
+            Current Judges
+          </h2>
+          <Button onClick={handleAddJudge}>Add Judge</Button>
+        </div>
+        <JudgeListComponent judges={judges} />
+      </div>
+
+      {judgeCard && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center dark:bg-black bg-opacity-80">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 w-[500px] max-w-[90%] relative">
+            <button
+              onClick={handleCloseJudgeCard}
+              className="absolute top-3 right-3 text-gray-500 hover:text-gray-800 dark:hover:text-gray-200"
+            >
+              ✕
+            </button>
+
+            <AddJudgeCard changeState = {setJudgeCard}/>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default InitialState;
