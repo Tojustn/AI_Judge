@@ -3,10 +3,8 @@ import { handleFileUpload } from "../services/uploadFile";
 import { checkFileType } from "../services/fileUtils";
 import { Button } from "./Button";
 import { Upload } from "lucide-react";
-import { useAppState } from "../context/AppStateContext";
 
 const FileUploadComponent = () => {
-  const { setAppState } = useAppState();
   const [file, setFile] = useState<File | null>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,7 +23,10 @@ const FileUploadComponent = () => {
         setFile(null);
         throw new Error("Invalid file type. Please upload a .json file.");
       }
-      await handleFileUpload(file);
+      const result = await handleFileUpload(file);
+      alert("Total Successful: " + result.successful + "\nTotal Failed: " + result.failed)
+
+      window.location.reload()
     } catch (error) {
       alert(error);
     }

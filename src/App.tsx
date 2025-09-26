@@ -2,11 +2,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import ResultsPage from "./pages/ResultsPage";
 import QueuePage from "./pages/QueuePage";
-import { AppStateProvider } from "./context/AppStateContext";
+import { JudgesProvider } from "./context/JudgesContext";
 const App = () => {
   return (
     <BrowserRouter>
-      <AppStateProvider>
+      <JudgesProvider>
         <div className="min-h-screen w-full min-w-full">
           <Routes>
             <Route path="/queues/:queueId" element={<QueuePage/>} />
@@ -14,7 +14,7 @@ const App = () => {
             <Route path="/results" element={<ResultsPage />} />
           </Routes>
         </div>
-      </AppStateProvider>
+      </JudgesProvider>
     </BrowserRouter>
   );
 };

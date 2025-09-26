@@ -6,10 +6,11 @@ import { getAssignedJudgesByQuestion } from "../../services/supabase/judges";
 
 interface QuestionCardProps {
   question: Question;
-  judges: Judge[]
+  judges: Judge[];
+  onAssignmentChange: (questionId: string, judgeIds: string[]) => void;
 }
 
-export const QuestionCard = ({ question, judges}: QuestionCardProps) => {
+export const QuestionCard = ({ question, judges, onAssignmentChange}: QuestionCardProps) => {
   const [selectedJudges, setSelectedJudges] = useState<Judge[]>([]);
 
   useEffect(()=>{
@@ -45,7 +46,7 @@ export const QuestionCard = ({ question, judges}: QuestionCardProps) => {
       <div className="border-t border-gray-100 pt-3 text-gray-500 text-xs">
         Submission ID: {question.submissionId}
       </div>
-      <JudgeCheckboxDropdown availableJudges={judges} selectedJudges={selectedJudges} setSelectedJudges={setSelectedJudges}></JudgeCheckboxDropdown>
+      <JudgeCheckboxDropdown questionId={question.id} onAssignmentChange={onAssignmentChange} availableJudges={judges} selectedJudges={selectedJudges} setSelectedJudges={setSelectedJudges}></JudgeCheckboxDropdown>
     </div>
   );
 };

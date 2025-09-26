@@ -1,34 +1,16 @@
-import React, { useState, useEffect } from "react";
-import FileUploadComponent from "../FileUploadComponent";
-import { getSubmissions } from "../../services/supabase/submissions";
-import QueueList from "../lists/QueueListComponent";
-import type { Submission, Judge } from "../../types/types";
-import { getJudges } from "../../services/supabase/judges";
-import JudgeListComponent from "../lists/JudgeListComponent";
-import { Button } from "../Button";
+import React, { useState } from "react";
+import UploadSection from "../sections/UploadSection";
+import QueueSection from "../sections/QueueSection";
+import JudgesSection from "../sections/JudgesSection";
+import Modal from "../Modal";
 import AddJudgeCard from "../cards/AddJudgeCard";
 import RunEvaluationsButton from "../RunEvaluationsButton";
-
+import { useJudges } from "../../context/JudgesContext";
+import { useQueues } from "../../hooks/useQueues";
 const InitialState = () => {
-  const [queues, setQueues] = useState<Submission[]>([]);
-  const [judges, setJudges] = useState<Judge[]>([]);
   const [judgeCard, setJudgeCard] = useState<boolean>(false);
-
-  useEffect(() => {
-    const fetchInfo = async () => {
-      try {
-        const submissions = await getSubmissions();
-        setQueues(submissions || []);
-
-        const judges = await getJudges();
-        setJudges(judges || []);
-      } catch (error) {
-        alert(error);
-      }
-    };
-
-    fetchInfo();
-  }, []);
+  const { judges, loadingJudges } = useJudges();
+  const { queues, loading: queuesLoading, error: queuesError } = useQueues();
 
   const handleAddJudge = () => {
     setJudgeCard(true);
@@ -51,18 +33,26 @@ const InitialState = () => {
         <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">
           Queue List
         </h2>
-        <QueueList queues={queues} />
+        {queuesLoading ? (<LoadingState message = "Loading Queues"></LoadingState>) : 
+        (<QueueList queues={queues} />
+        )}
       </div>
 
-      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow p-6">
-        <div className="flex flex-row justify-between">
-          <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">
-            Current Judges
-          </h2>
-          <Button onClick={handleAddJudge}>Add Judge</Button>
-        </div>
-        <JudgeListComponent judges={judges} />
-      </div>
+
+<div className="bg-white dark:bg-gray-800 rounded-2xl shadow p-6">
+  <div className="flex flex-row justify-between">
+    <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">
+      Current Judges
+    </h2>
+    <Button onClick={handleAddJudge}>Add Judge</Button>
+  </div>
+  
+  {loadingJudges ? (
+    <LoadingState message="Loading Judges" />
+  ) : (
+    <JudgeListComponent judges={judges} />
+  )}
+</div>
 
       {judgeCard && (
         <div className="fixed inset-0 z-50 flex items-center justify-center dark:bg-black bg-opacity-80">
