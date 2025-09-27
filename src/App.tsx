@@ -7,9 +7,9 @@ const App = () => {
   return (
     <BrowserRouter>
       <JudgesProvider>
-        <div className="min-h-screen w-full min-w-full">
+        <div className="">
           <Routes>
-            <Route path="/queues/:queueId" element={<QueuePage/>} />
+            <Route path="/queues/:queueId" element={<QueuePage />} />
             <Route path="/" element={<HomePage />} />
             <Route path="/results" element={<ResultsPage />} />
           </Routes>

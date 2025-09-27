@@ -1,10 +1,9 @@
-import React from "react";
 import QueueList from "../lists/QueueListComponent";
 import LoadingState from "../state/LoadingState";
-import type { Submission } from "../../types/types";
+import type { Queue } from "../../types/types";
 
 interface QueueSectionProps {
-  queues: Submission[];
+  queues: Queue[];
   loading: boolean;
   error: string | null;
 }
@@ -18,9 +17,7 @@ const QueueSection = ({ queues, loading, error }: QueueSectionProps) => {
       {loading ? (
         <LoadingState message="Loading Queues" />
       ) : error ? (
-        <div className="text-red-600 dark:text-red-400">
-          Error: {error}
-        </div>
+        <div className="text-red-600 dark:text-red-400">Error: {error}</div>
       ) : (
         <QueueList queues={queues} />
       )}

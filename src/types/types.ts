@@ -19,16 +19,22 @@ export interface Judge {
 export interface Question {
   id: string;
   rev: number;
-  submissionId: string;
+  queueId: string;
   questionType: string;
   questionText: string;
 }
 
 export interface Answer {
-  id: string;
+  id: string; // uuid type in database
   questionId: string;
   choice: string;
   reasoning?: string;
+  queueId?: string;
+}
+
+export interface Queue {
+  id: string;
+  createdAt: number;
 }
 
 export interface Submission {
@@ -41,6 +47,7 @@ export interface Submission {
 export interface JudgesQuestionsAssignment {
   judgeId: string;
   questionId: string;
+  queueId: string;
 }
 
 export interface JSONSubmission {
@@ -72,8 +79,7 @@ export type TargetModelName =
   | "claude-v1"
   | "llama-2-7b";
 
-
-  export const targetModels: TargetModelName[] = [
+export const targetModels: TargetModelName[] = [
   "gpt-4",
   "gpt-3.5-turbo",
   "claude-v1",

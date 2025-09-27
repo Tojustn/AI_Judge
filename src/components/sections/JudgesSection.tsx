@@ -1,4 +1,3 @@
-import React from "react";
 import JudgeListComponent from "../lists/JudgeListComponent";
 import LoadingState from "../state/LoadingState";
 import { Button } from "../Button";
@@ -19,7 +18,7 @@ const JudgesSection = ({ judges, loading, onAddJudge }: JudgesSectionProps) => {
         </h2>
         <Button onClick={onAddJudge}>Add Judge</Button>
       </div>
-      
+
       {loading ? (
         <LoadingState message="Loading Judges" />
       ) : (

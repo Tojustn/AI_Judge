@@ -23,10 +23,9 @@ const FileUploadComponent = () => {
         setFile(null);
         throw new Error("Invalid file type. Please upload a .json file.");
       }
-      const result = await handleFileUpload(file);
-      alert("Total Successful: " + result.successful + "\nTotal Failed: " + result.failed)
+      await handleFileUpload(file);
 
-      window.location.reload()
+      window.location.reload();
     } catch (error) {
       alert(error);
     }
@@ -38,7 +37,9 @@ const FileUploadComponent = () => {
         onSubmit={handleFileSubmit}
         className="m-6 p-6 flex flex-col space-y-4 bg-gray-100 dark:bg-slate-600 rounded-xl"
       >
-        <h1 className="text-xl"><strong>Upload JSON File</strong></h1>
+        <h1 className="text-xl">
+          <strong>Upload JSON File</strong>
+        </h1>
         <input
           type="file"
           accept="application/json,.json"

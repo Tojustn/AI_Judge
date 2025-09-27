@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { getSubmissions } from "../services/supabase/submissions";
-import type { Submission } from "../types/types";
+import type { Queue } from "../types/types";
+import { getQueues } from "../services/supabase/queues";
 
 export const useQueues = () => {
-  const [queues, setQueues] = useState<Submission[]>([]);
+  const [queues, setQueues] = useState<Queue[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -12,12 +12,14 @@ export const useQueues = () => {
       try {
         setLoading(true);
         setError(null);
-        const submissions = await getSubmissions();
-        setQueues(submissions || []);
+        const queues = await getQueues();
+        console.log(queues);
+        setQueues(queues || []);
       } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'Failed to load queues';
+        const errorMessage =
+          err instanceof Error ? err.message : "Failed to load queues";
         setError(errorMessage);
-        console.error('Error fetching queues:', err);
+        console.error("Error fetching queues:", err);
       } finally {
         setLoading(false);
       }

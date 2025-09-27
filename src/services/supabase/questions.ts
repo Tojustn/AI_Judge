@@ -15,14 +15,15 @@ export const saveQuestion = async (question: Question) => {
   }
 };
 
-export const getQuestionBySessionId = async(submissionId:string) => {
-    const {data,error} = await supabase.from("questions")
-  .select("*").eq("submissionId", submissionId)
+export const getQuestionsByQueueId = async (queueId: string) => {
+  const { data, error } = await supabase
+    .from("questions")
+    .select("*")
+    .eq("queueId", queueId);
 
-  if (error){
-    throw new Error(error.message || "Failed to fetch questions")
+  if (error) {
+    throw new Error(error.message || "Failed to fetch questions");
   }
 
-  return data
-  
-}
+  return data;
+};
