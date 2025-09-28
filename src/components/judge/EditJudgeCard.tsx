@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { type Judge, type TargetModelName } from "../../types/types";
-import RadioComponent from "../RadioComponent";
+import RadioComponent from "./RadioComponent";
 import { updateJudge } from "../../services/supabase/judges";
 
 interface EditJudgeProps {

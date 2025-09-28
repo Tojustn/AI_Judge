@@ -1,10 +1,10 @@
-import QuestionListComponent from "../components/lists/QuestionListComponent";
+import QuestionListComponent from "../components/question/QuestionListComponent";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
-import LoadingState from "../components/LoadingState";
+import LoadingState from "../components/common/LoadingState";
 import { useQueueDetails } from "../hooks/useQueueDetails";
 import { useNavigate } from "react-router-dom";
-import RunEvaluationsButton from "../components/RunEvaluationsButton";
+import RunEvaluationsButton from "../components/queue/RunEvaluationsButton";
 
 const QueuePage = () => {
   const { queueId } = useParams<{ queueId: string }>();

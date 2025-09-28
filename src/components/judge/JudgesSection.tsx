@@ -1,6 +1,6 @@
 import JudgeListComponent from "../lists/JudgeListComponent";
-import LoadingState from "../LoadingState";
-import { Button } from "../Button";
+import LoadingState from "../common/LoadingState";
+import { Button } from "../common/Button";
 import type { Judge } from "../../types/types";
 
 interface JudgesSectionProps {

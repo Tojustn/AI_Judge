@@ -1,10 +1,10 @@
 
 import { useState } from "react";
-import UploadSection from "../components/sections/UploadSection";
-import QueueSection from "../components/sections/QueueSection";
-import JudgesSection from "../components/sections/JudgesSection";
-import Modal from "../components/Modal";
-import AddJudgeCard from "../components/cards/AddJudgeCard";
+import UploadSection from "../components/upload/UploadSection";
+import QueueSection from "../components/queue/QueueSection";
+import JudgesSection from "../components/judge/JudgesSection";
+import Modal from "../components/common/Modal";
+import AddJudgeCard from "../components/judge/AddJudgeCard";
 import { useJudges } from "../context/JudgesContext";
 import { useQueues } from "../hooks/useQueues";
 const HomePage = () => {

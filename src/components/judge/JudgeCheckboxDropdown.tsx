@@ -1,4 +1,4 @@
-import type { Judge } from "../types/types";
+import type { Judge } from "../../types/types";
 import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 

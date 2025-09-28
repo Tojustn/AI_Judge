@@ -1,5 +1,5 @@
 import type { Judge } from "../../types/types";
-import { JudgeCard } from "../cards/JudgeCard";
+import { JudgeCard } from "../judge/JudgeCard";
 
 interface JudgesListProp {
   judges: Judge[];

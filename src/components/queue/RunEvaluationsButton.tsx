@@ -1,6 +1,6 @@
 import React from "react";
-import { Button } from "./Button";
-import { runEvaluations } from "../services/llm/runEvaluation";
+import { Button } from "../common/Button";
+import { runEvaluations } from "../../services/llm/runEvaluation";
 import { useNavigate } from "react-router-dom";
 
 interface RunEvaluationsProp {

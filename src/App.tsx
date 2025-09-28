@@ -3,7 +3,7 @@ import HomePage from "./pages/HomePage";
 import ResultsPage from "./pages/ResultsPage";
 import QueuePage from "./pages/QueuePage";
 import { JudgesProvider } from "./context/JudgesContext";
-import NavBar from "./components/NavBar";
+import NavBar from "./components/common/NavBar";
 const App = () => {
   return (
     <BrowserRouter>

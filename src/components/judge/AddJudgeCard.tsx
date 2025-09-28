@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import type { Judge, TargetModelName } from "../../types/types";
-import RadioComponent from "../RadioComponent";
-import { generateId } from "../../services/generate_id";
+import RadioComponent from "./RadioComponent";
+import { generateId } from "../../services/utils/generate_id";
 import { saveJudge } from "../../services/supabase/judges";
 interface AddJudgeCardProps {
   changeState: React.Dispatch<React.SetStateAction<boolean>>;

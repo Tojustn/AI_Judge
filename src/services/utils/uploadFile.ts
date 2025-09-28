@@ -1,10 +1,10 @@
 import { parseFile } from "./fileUtils.ts";
-import { saveSubmission } from "./supabase/submissions.ts";
-import saveMultipleAnswers from "./supabase/answers.ts";
-import { saveMultipleQuestions } from "./supabase/questions.ts";
-import { saveQueue } from "./supabase/queues.ts";
+import { saveSubmission } from "../supabase/submissions.ts";
+import saveMultipleAnswers from "../supabase/answers.ts";
+import { saveMultipleQuestions } from "../supabase/questions.ts";
+import { saveQueue } from "../supabase/queues.ts";
 import { generateId } from "./generate_id.ts";
-import type { JSONSubmission, JSONSubmissions } from "../types/types.ts";
+import type { JSONSubmission, JSONSubmissions } from "../../types/types.ts";
 
 export const handleFileUpload = async (file: File) => {
   const parsed: JSONSubmission | JSONSubmissions = await parseFile(file);

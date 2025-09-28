@@ -1,5 +1,5 @@
 import React from "react";
-import { targetModelsArray } from "../types/types";
+import { targetModelsArray } from "../../types/types";
 
 interface RadioComponentProps {
   chosen: string;

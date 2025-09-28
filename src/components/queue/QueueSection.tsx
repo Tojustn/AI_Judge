@@ -1,5 +1,5 @@
-import QueueList from "../lists/QueueListComponent";
-import LoadingState from "../LoadingState";
+import QueueList from "./QueueListComponent";
+import LoadingState from "../common/LoadingState";
 import type { Queue } from "../../types/types";
 
 interface QueueSectionProps {

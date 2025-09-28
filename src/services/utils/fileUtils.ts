@@ -1,4 +1,4 @@
-import type { JSONSubmission, JSONSubmissions } from "../types/types";
+import type { JSONSubmission,JSONSubmissions } from "../../types/types";
 
 export const checkFileType = (file: File) => {
   const name = file.name || "";

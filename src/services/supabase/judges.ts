@@ -35,6 +35,10 @@ export const deleteJudge = async (id: string) => {
   console.log(id)
   const response = await supabase.from("judges").delete().eq("id", id);
 
+  if(response.status !== 204){
+    throw new Error(response.error?.message || "Error deleting judge");
+  }
+
 };
 
 export const getAssignedJudgesByQuestion = async (

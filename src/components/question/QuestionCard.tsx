@@ -1,8 +1,8 @@
 import type { Question, Judge, Answer} from "../../types/types";
-import JudgeCheckboxDropdown from "../JudgeCheckboxDropdown";
+import JudgeCheckboxDropdown from "../judge/JudgeCheckboxDropdown";
 import { useState } from "react";
 import { useAnswers } from "../../hooks/useAnswers";
-import AnswerDropdown from "../queue/AnswerDropdown";
+import AnswerDropdown from "./AnswerDropdown";
 
 interface QuestionCardProps {
   question: Question;

@@ -1,4 +1,4 @@
-import FileUploadComponent from "../FileUploadComponent";
+import FileUploadComponent from "./FileUploadComponent";
 
 const UploadSection = () => {
   return (

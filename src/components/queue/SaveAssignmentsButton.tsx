@@ -1,6 +1,5 @@
-import { Button } from "./Button";
-import { saveQuestionsToJudges } from "../services/supabase/judgestoquestions";
-import { useNavigate } from "react-router-dom";
+import { Button } from "../common/Button";
+import { saveQuestionsToJudges } from "../../services/supabase/judgestoquestions";
 
 interface SaveAssignmentsButtonProps {
   assignments: Map<string, string[]>;
@@ -9,7 +8,6 @@ interface SaveAssignmentsButtonProps {
 const SaveAssignmentsButton: React.FC<SaveAssignmentsButtonProps> = ({
   assignments,
 }) => {
-  const navigate = useNavigate();
   const saveAssignments = async () => {
     try {
       await saveQuestionsToJudges(assignments);

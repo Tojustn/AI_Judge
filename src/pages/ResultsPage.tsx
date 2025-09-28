@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useResults } from "../hooks/useResults";
-import LoadingState from "../components/LoadingState";
+import LoadingState from "../components/common/LoadingState";
 import StatsCard from "../components/results/StatsCard";
 import ResultsTable from "../components/results/ResultsTable";
 import Filters from "../components/results/Filters";

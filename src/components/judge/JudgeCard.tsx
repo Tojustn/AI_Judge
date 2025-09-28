@@ -2,7 +2,7 @@ import type { Judge } from "../../types/types";
 import { useState } from "react";
 import { deleteJudge } from "../../services/supabase/judges";
 import EditJudgeCard from "./EditJudgeCard";
-import Modal from "../Modal";
+import Modal from "../common/Modal";
 
 interface JudgeProps {
   judge: Judge;

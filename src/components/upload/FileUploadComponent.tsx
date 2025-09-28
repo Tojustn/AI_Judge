@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { handleFileUpload } from "../services/uploadFile";
-import { checkFileType } from "../services/fileUtils";
-import { Button } from "./Button";
+import { handleFileUpload } from "../../services/utils/uploadFile";
+import { checkFileType } from "../../services/utils/fileUtils";
+import { Button } from "../common/Button";
 import { Upload } from "lucide-react";
 
 const FileUploadComponent = () => {

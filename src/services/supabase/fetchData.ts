@@ -1,6 +1,6 @@
 import { getAnswersByQuestionId} from "./answers";
 import { getJudgeAssignmentsByQueue } from "./judgestoquestions";
-import { targetModelMap, type Answer } from "../../types/types";
+import { targetModelMap  } from "../../types/types";
 
 export const fetchEvaluationData = async (queueId: string) => {
   const assignments = await getJudgeAssignmentsByQueue(queueId);

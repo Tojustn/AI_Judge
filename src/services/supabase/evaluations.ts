@@ -1,5 +1,5 @@
 import { supabase } from "./supabase";
-import type { Evaluation, AIResponse} from "../../types/types";
+
 
 export const getEvaluations = async () => {
   const { data, error } = await supabase.from("evaluations").select("*");

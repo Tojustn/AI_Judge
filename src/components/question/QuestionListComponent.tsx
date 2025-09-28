@@ -1,11 +1,10 @@
-import React from "react";
-import type { Question, Judge } from "../../types/types";
-import { QuestionCard } from "../cards/QuestionCard";
+import type { Question } from "../../types/types";
+import { QuestionCard } from "./QuestionCard";
 import { useQuestionAssignments } from "../../hooks/useQuestionAssignments";
-import SaveAssignmentsButton from "../SaveAssignmentsButton";
-import RunEvaluationsButton from "../RunEvaluationsButton";
+import SaveAssignmentsButton from "../queue/SaveAssignmentsButton";
+import RunEvaluationsButton from "../queue/RunEvaluationsButton";
 import { useJudges } from "../../context/JudgesContext";
-import LoadingState from "../LoadingState";
+import LoadingState from "../common/LoadingState";
 
 interface QuestionListProps {
   queueId: string;

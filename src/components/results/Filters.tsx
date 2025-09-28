@@ -1,7 +1,5 @@
-import React, { useMemo } from "react";
+import React from "react";
 import type { Evaluation, Verdict } from "../../types/types";
-import { getJudgeAndQuestionOptions } from "../../services/getOptions";
-import { useJudges } from "../../context/JudgesContext";
 
 interface FiltersProps {
   evaluations: Evaluation[];
@@ -18,7 +16,6 @@ interface FiltersProps {
 const verdictOptions: Verdict[] = ["pass", "fail", "inconclusive"];
 
 const Filters = ({
-  evaluations,
   judgeFilter,
   setJudgeFilter,
   questionFilter,
