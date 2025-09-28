@@ -7,7 +7,7 @@ import Filters from "../components/results/Filters";
 import { type Verdict } from "../types/types";
 import { getJudgeAndQuestionOptions } from "../services/getOptions";
 import { useJudges } from "../context/JudgesContext";
-
+import PieChart from "../components/results/chart/PieChart";
 const ResultsPage = () => {
   const { judges } = useJudges();
   const { evaluations, loading } = useResults();
@@ -65,11 +65,25 @@ const ResultsPage = () => {
   return (
     <div className="p-6 min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
       <h1 className="text-2xl font-bold mb-4">Evaluation Results</h1>
-      <div className="flex gap-6 mb-6">
-        <StatsCard label="Total Evaluations" value={total} />
-        <StatsCard label="Pass Rate" value={`${passRate}%`} />
-        <StatsCard label="Failed" value={failed} />
-      </div>
+      
+      <div className="flex flex-row gap-6 items-center">
+  <div className="flex flex-row gap-4">
+    <StatsCard label="Total Evaluations" value={total} />
+    <StatsCard label="Pass Rate" value={`${passRate}%`} />
+    <StatsCard label="Failed" value={failed} />
+  </div>
+
+  <div className="w-60 h-60">
+    <PieChart
+      verdictCounts={{
+        pass: filteredEvaluations.filter(e => e.verdict === "pass").length,
+        fail: filteredEvaluations.filter(e => e.verdict === "fail").length,
+        inconclusive: filteredEvaluations.filter(e => e.verdict === "inconclusive").length,
+      }}
+    />
+  </div>
+</div>
+
       <Filters         
         evaluations={evaluations}
         judgeFilter={judgeFilter}
@@ -88,6 +102,7 @@ const ResultsPage = () => {
       ) : (
         <ResultsTable evaluations={filteredEvaluations} />
       )}
+
     </div>
   );
 };
