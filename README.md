@@ -23,6 +23,7 @@ npm run dev
 * **UI/UX:** Responsive design with loading states and error handling
 * **Deployment:** Single React app; runs with `npm run dev`
 * **Scope Cuts:** Only GPT-4o Mini supported; file attachments to LLM not implemented
+Sequential Processing
 
 ## Time Spent
 **~16 hours** - Focused on core functionality and clean architecture.
