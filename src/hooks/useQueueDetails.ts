@@ -38,5 +38,5 @@ export const useQueueDetails = (queueId: string | undefined) => {
     fetchQueueDetails();
   }, [queueId]);
 
-  return { queue, questions, loading, error };
+  return { queue, questions, loading, error, setLoading};
 };

@@ -1,44 +1,57 @@
-import type { Question } from "../../types/types";
+import React from "react";
+import type { Question, Judge } from "../../types/types";
 import { QuestionCard } from "../cards/QuestionCard";
-import React, { useEffect, useState } from "react";
+import { useQuestionAssignments } from "../../hooks/useQuestionAssignments";
 import SaveAssignmentsButton from "../SaveAssignmentsButton";
+import RunEvaluationsButton from "../RunEvaluationsButton";
 import { useJudges } from "../../context/JudgesContext";
+import LoadingState from "../LoadingState";
 
-interface QuestionListProp {
+interface QuestionListProps {
   queueId: string;
   questions: Question[];
+  setLoading: (loading: boolean) => void;
 }
-const QuestionListComponent = ({ queueId, questions }: QuestionListProp) => {
-  if (!questions || questions.length === 0) {
-    return <div className="p-4 text-gray-500">No questions to display.</div>;
-  }
+
+const QuestionListComponent = ({ queueId, questions, setLoading}: QuestionListProps) => {
   const { judges } = useJudges();
-  const [assignments, setAssignments] = useState<Map<string, string[]>>(
-    new Map()
+
+  const { assignments, updateAssignment, loading } = useQuestionAssignments(
+    queueId,
+    questions
   );
 
-  const handleAssignmentChange = (questionId: string, judgeIds: string[]) => {
-    setAssignments((prev) => {
-      const newMap = new Map(prev);
-      const key = JSON.stringify([queueId, questionId]);
-      newMap.set(key, judgeIds);
-      return newMap;
-    });
-  };
+  if (loading)
+    return <LoadingState message="Loading Assignments... "></LoadingState>;
+  if (!questions || questions.length === 0)
+    return <div>No questions to display.</div>;
+
   return (
     <div className="flex flex-col h-full justify-between">
-      <div className="grid grid-cols-5">
-        {questions.map((question) => (
-          <QuestionCard
-            key={question.id}
-            judges={judges}
-            question={question}
-            setAssignments={setAssignments}
-            onAssignmentChange={handleAssignmentChange}
-          />
-        ))}
+      <div className="grid grid-cols-5 gap-4">
+        {questions.map((question) => {
+          const key = JSON.stringify([queueId, question.id]);
+          const selectedJudges = assignments.get(key) || [];
+
+          return (
+            <QuestionCard
+              key={question.id}
+              question={question}
+              judges={judges}
+              selectedJudges={selectedJudges}
+              onAssignmentChange={(questionId: string, judgeIds: string[]) => {
+                // we already know the questionId, so just use it
+                updateAssignment(questionId, judgeIds);
+              }}
+            />
+          );
+        })}
       </div>
-      <SaveAssignmentsButton assignments={assignments}></SaveAssignmentsButton>
+
+      <div className="flex gap-4 mt-4">
+        <SaveAssignmentsButton assignments={assignments} />
+        <RunEvaluationsButton queueId={queueId} setLoading={setLoading}/>
+      </div>
     </div>
   );
 };

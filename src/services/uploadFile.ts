@@ -83,6 +83,7 @@ export const handleFileUpload = async (file: File) => {
       queueId: submissionData.queueId,
       questionText: q.data.questionText,
       questionType: q.data.questionType,
+      submissionId: submissionData.id,
       rev: q.rev,
     }));
 
@@ -95,6 +96,7 @@ export const handleFileUpload = async (file: File) => {
         queueId: submissionData.queueId,
         choice: answerData.choice || "",
         reasoning: answerData.reasoning || "",
+        submissionId: submissionData.id,
       })
     );
 

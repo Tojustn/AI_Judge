@@ -32,11 +32,13 @@ export const saveJudge = async (judge: Judge) => {
 };
 
 export const deleteJudge = async (id: string) => {
+  console.log(id)
   const response = await supabase.from("judges").delete().eq("id", id);
+
 };
 
 export const getAssignedJudgesByQuestion = async (
-  questionId: string
+  questionId: string, queueId: string
 ): Promise<Judge[]> => {
   const { data, error } = await supabase
     .from("JudgesQuestionsAssignment")
@@ -53,13 +55,14 @@ export const getAssignedJudgesByQuestion = async (
     `
     )
 
-    .eq("questionId", questionId);
+    .eq("queueId", queueId).eq("questionId", questionId);
 
   if (error) {
     throw new Error(error.message || "Failed to Fetch Judges");
   }
 
-  return data?.flatMap((assignment) => assignment.judges || []) || [];
+  // Remove the JudgeId make it one json
+  return data?.flatMap((assignment) => assignment.judges|| []) || [];
 };
 
 export const updateJudge = async (judge: Judge) => {

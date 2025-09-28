@@ -22,6 +22,7 @@ export interface Question {
   queueId: string;
   questionType: string;
   questionText: string;
+  submissionId: string;
 }
 
 export interface Answer {
@@ -29,7 +30,8 @@ export interface Answer {
   questionId: string;
   choice: string;
   reasoning?: string;
-  queueId?: string;
+  queueId: string;
+  submissionId: string;
 }
 
 export interface Queue {
@@ -75,13 +77,53 @@ export type AppState = "initial" | "running-evaluations" | "viewing-results";
 
 export type TargetModelName =
   | "gpt-4"
-  | "gpt-3.5-turbo"
+  | "gpt-o4 mini"
   | "claude-v1"
   | "llama-2-7b";
 
-export const targetModels: TargetModelName[] = [
-  "gpt-4",
-  "gpt-3.5-turbo",
-  "claude-v1",
-  "llama-2-7b",
+export type LLMModel = {
+  name: string;
+  provider: "openai" | "anthropic" | "local";
+  id: TargetModelName;
+};
+
+export const targetModelMap = new Map<
+  string,
+  { name: string; provider: string }
+>([
+  ["gpt-4", { name: "GPT-4", provider: "openai" }],
+  ["gpt-4o-mini", { name: "GPT-4o mini", provider: "openai" }],
+  ["claude-v1", { name: "Claude v1", provider: "anthropic" }],
+  ["gemini-1", { name: "Gemini 1", provider: "gemini" }]
+
+]);
+
+export const targetModelsArray = [
+  { id: "gpt-4", name: "GPT-4", provider: "openai" },
+  { id: "gpt-4o-mini", name: "GPT-4o mini", provider: "openai" },
+  { id: "claude-v1", name: "Claude v1", provider: "anthropic" },
+  {id: "gemini-1", name: "Gemini 1", provider: "gemini"}
 ];
+
+export interface Evaluation {
+  id: number;        
+  createdAt: string;        
+  judgeId: string | null;     
+  questionId: string | null; 
+  submissionId: string | null;
+  verdict: Verdict | null;    
+  reasoning: string | null;
+}
+
+
+export type Verdict = 
+  | "pass" 
+  | "fail" 
+  | "inconclusive"; 
+
+  export interface AIResponse {
+  success: boolean;           
+  content: string;
+  taskId: string;                
+  judgeId: string;               
+  }

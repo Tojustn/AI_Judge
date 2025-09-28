@@ -16,3 +16,43 @@ export const saveMultipleAnswers = async (answers: Answer[]) => {
 };
 
 export default saveMultipleAnswers;
+
+export const getAnswers = async () => {
+  const { data, error } = await supabase.from("answers").select("*");
+
+  if (error) {
+    throw new Error(error.message || "Failed to fetch questions");
+  }
+
+  return data;
+};
+
+export const getAnswersByQuestionId = async (questionId: string) => {
+  const { data, error } = await supabase
+    .from("answers")
+    .select("*")
+    .eq("questionId", questionId);
+
+  if (error) {
+    throw new Error(error.message || "Failed to fetch questions");
+  }
+
+  return data;
+};
+
+export const getAnswersByMultipleQuestionIds = async (
+  questionIds: string[]
+) => {
+  if (questionIds.length === 0) return [];
+
+  const { data, error } = await supabase
+    .from("answers")
+    .select("*")
+    .in("questionId", questionIds);
+
+  if (error) {
+    throw new Error(`Failed to fetch answers: ${error.message}`);
+  }
+
+  return data || [];
+};

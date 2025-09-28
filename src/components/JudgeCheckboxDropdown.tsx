@@ -5,56 +5,56 @@ import { ChevronDown, ChevronUp } from "lucide-react";
 interface JudgeCheckboxDropdownProps {
   questionId: string;
   availableJudges: Judge[];
-  selectedJudges: Judge[];
-  setSelectedJudges: React.Dispatch<React.SetStateAction<Judge[]>>;
-  onAssignmentChange: (qusetionId: string, judgeIds: string[]) => void;
+  selectedJudges: string[];
+  onAssignmentChange: (questionId: string, judgeIds: string[]) => void;
 }
 
 const JudgeCheckboxDropdown = ({
   questionId,
   availableJudges,
   selectedJudges,
-  setSelectedJudges,
   onAssignmentChange,
 }: JudgeCheckboxDropdownProps) => {
-  const [isOpen, setIsOpen] = useState<boolean>(true);
+  const [isOpen, setIsOpen] = useState(false);
 
-  const handleToggle = (judge: Judge) => {
-    setSelectedJudges((prev) => {
-      let newSelection;
-      if (prev.some((j) => j.id === judge.id)) {
-        newSelection = prev.filter((j) => j.id !== judge.id);
-      } else {
-        newSelection = [...prev, judge];
-      }
-      onAssignmentChange(
-        questionId,
-        newSelection.map((j) => j.id)
-      );
-      return newSelection;
-    });
+  const handleToggle = (judgeId: string) => {
+    const newSelection = selectedJudges.includes(judgeId)
+      ? selectedJudges.filter((id) => id !== judgeId)
+      : [...selectedJudges, judgeId];
+
+    onAssignmentChange(questionId, newSelection);
   };
 
   return (
-    <div className="flex flex-col">
-      <div className="flex flex-row">
-        <button onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? <ChevronDown /> : <ChevronUp />}
-        </button>
-        <p>Judges</p>
-      </div>
-      {isOpen &&
-        availableJudges.map((judge) => (
-          <label key={judge.id}>
-            <input
-              className="mx-3"
-              type="checkbox"
-              checked={selectedJudges.some((j) => j.id === judge.id)}
-              onChange={() => handleToggle(judge)}
-            />
-            {judge.name}
-          </label>
-        ))}
+    <div className="mb-4">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex items-center gap-2 w-full p-2 bg-gray-50 dark:bg-gray-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+      >
+        {isOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+        <span className="font-medium">
+          Judges ({selectedJudges.length} selected)
+        </span>
+      </button>
+
+      {isOpen && (
+        <div className="mt-2 p-3 border rounded-md bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+          {availableJudges.map((judge) => (
+            <label
+              key={judge.id}
+              className="flex items-center gap-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 p-1 rounded transition-colors"
+            >
+              <input
+                type="checkbox"
+                checked={selectedJudges.includes(judge.id)}
+                onChange={() => handleToggle(judge.id)}
+                className="rounded border-gray-300 dark:border-gray-500"
+              />
+              <span className="text-sm">{judge.name}</span>
+            </label>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

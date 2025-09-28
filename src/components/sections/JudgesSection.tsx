@@ -1,5 +1,5 @@
 import JudgeListComponent from "../lists/JudgeListComponent";
-import LoadingState from "../state/LoadingState";
+import LoadingState from "../LoadingState";
 import { Button } from "../Button";
 import type { Judge } from "../../types/types";
 

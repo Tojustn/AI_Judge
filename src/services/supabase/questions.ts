@@ -27,3 +27,13 @@ export const getQuestionsByQueueId = async (queueId: string) => {
 
   return data;
 };
+
+export const getQuestions = async () => {
+  const { data, error } = await supabase.from("questions").select("*");
+
+  if (error) {
+    throw new Error(error.message || "Failed to fetch questions");
+  }
+
+  return data;
+};

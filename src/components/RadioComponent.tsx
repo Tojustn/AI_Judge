@@ -1,21 +1,33 @@
-import React from 'react'
-import { targetModels } from '../types/types';
+import React from "react";
+import { targetModelsArray } from "../types/types";
 
-interface RadioComponentProps{
-    chosen: string;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+interface RadioComponentProps {
+  chosen: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
-const RadioComponent = ({chosen, onChange}: RadioComponentProps) => {
+const RadioComponent = ({ chosen, onChange }: RadioComponentProps) => {
   return (
-<div className="flex flex-col">
-{targetModels.map((model,index) => (
-    <div key ={model} className = "flex  items-center">
-        <input type="radio" onChange={onChange}  name = "target-model" value = {model} checked ={chosen === model}></input>
-        <label htmlFor={'radio-${index}'} className = "text-black dark:text-white mx-5">{model}</label>
+    <div className="flex flex-col">
+      {targetModelsArray.map((data, index) => (
+        <div key={data.id} className="flex items-center">
+          <input
+            id={`radio-${index}`}
+            type="radio"
+            name="target-model"
+            value={data.id}
+            checked={chosen === data.id}
+            onChange={onChange}
+          />
+          <label
+            htmlFor={`radio-${index}`}
+            className="text-black dark:text-white mx-5"
+          >
+            {data.name}
+          </label>
+        </div>
+      ))}
     </div>
-))}
-</div>
-  )
-}
+  );
+};
 
-export default RadioComponent
+export default RadioComponent;
