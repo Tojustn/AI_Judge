@@ -1,10 +1,52 @@
-
-import React from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useResults } from "../hooks/useResults";
 import LoadingState from "../components/LoadingState";
+import StatsCard from "../components/results/StatsCard";
+import ResultsTable from "../components/results/ResultsTable";
+import Filters from "../components/results/Filters";
+import { type Verdict } from "../types/types";
+import { getJudgeAndQuestionOptions } from "../services/getOptions";
+import { useJudges } from "../context/JudgesContext";
 
 const ResultsPage = () => {
+  const { judges } = useJudges();
   const { evaluations, loading } = useResults();
+  
+  // Use useMemo to prevent recreating options on every render
+  const { judgeOptions, questionOptions } = useMemo(() => 
+    getJudgeAndQuestionOptions(evaluations, judges),
+    [evaluations, judges]
+  );
+  
+  const [judgeFilter, setJudgeFilter] = useState<string[]>([]);
+  const [questionFilter, setQuestionFilter] = useState<string[]>([]);
+  const [verdictFilter, setVerdictFilter] = useState<Verdict[]>(["pass", "fail", "inconclusive"]);
+  
+  // Initialize filters when options are available
+  useEffect(() => {
+    if (judgeOptions.length > 0) {
+      setJudgeFilter(judgeOptions.map(j => j.id));
+    }
+  }, [judgeOptions]);
+
+  useEffect(() => {
+    if (questionOptions.length > 0) {
+      setQuestionFilter(questionOptions);
+    }
+  }, [questionOptions]);
+  
+  const filteredEvaluations = useMemo(() => 
+    evaluations.filter(
+      (e) =>
+        e.judgeId !== null &&
+        e.questionId !== null &&
+        e.verdict !== null &&
+        judgeFilter.includes(e.judgeId) &&
+        questionFilter.includes(e.questionId) &&
+        verdictFilter.includes(e.verdict)
+    ),
+    [evaluations, judgeFilter, questionFilter, verdictFilter]
+  );
 
   if (loading) {
     return (
@@ -13,99 +55,41 @@ const ResultsPage = () => {
       </div>
     );
   }
-  else if(!evaluations || evaluations.length === 0){
-    return (
-     <div className="p-6 min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 text-black dark:text-white">
-        No Results Found
-      </div> 
-    )
-  }
+
+  const total = filteredEvaluations.length;
+  const passRate = total > 0 ? Math.round(
+    (filteredEvaluations.filter((e) => e.verdict === "pass").length / total) * 100
+  ) : 0;
+  const failed = filteredEvaluations.filter((e) => e.verdict === "fail").length;
 
   return (
     <div className="p-6 min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
       <h1 className="text-2xl font-bold mb-4">Evaluation Results</h1>
-
       <div className="flex gap-6 mb-6">
-        <div className="bg-white dark:bg-gray-800 p-4 rounded shadow w-48 text-center">
-          <div className="text-sm text-gray-500 dark:text-gray-400">
-            Total Evaluations
-          </div>
-          <div className="text-xl font-semibold">{evaluations.length}</div>
-        </div>
-        <div className="bg-white dark:bg-gray-800 p-4 rounded shadow w-48 text-center">
-          <div className="text-sm text-gray-500 dark:text-gray-400">Pass Rate</div>
-          <div className="text-xl font-semibold">
-            {evaluations.length > 0
-              ? Math.round(
-                  (evaluations.filter((e) => e.verdict === "pass").length /
-                    evaluations.length) *
-                    100
-                )
-              : 0}
-            %
-          </div>
-        </div>
-        <div className="bg-white dark:bg-gray-800 p-4 rounded shadow w-48 text-center">
-          <div className="text-sm text-gray-500 dark:text-gray-400">Failed</div>
-          <div className="text-xl font-semibold">
-            {evaluations.filter((e) => e.verdict === "fail").length}
-          </div>
-        </div>
+        <StatsCard label="Total Evaluations" value={total} />
+        <StatsCard label="Pass Rate" value={`${passRate}%`} />
+        <StatsCard label="Failed" value={failed} />
       </div>
-
-      <div className="flex gap-4 mb-4">
-        <select className="p-2 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
-          <option>Filter by Judge</option>
-        </select>
-        <select className="p-2 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
-          <option>Filter by Question</option>
-        </select>
-        <select className="p-2 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100">
-          <option>Filter by Verdict</option>
-        </select>
-      </div>
-
-      <div className="overflow-x-auto bg-white dark:bg-gray-800 rounded shadow">
-        <table className="min-w-full table-auto">
-          <thead className="bg-gray-200 dark:bg-gray-700">
-            <tr>
-              <th className="px-4 py-2 text-left">Submission</th>
-              <th className="px-4 py-2 text-left">Question</th>
-              <th className="px-4 py-2 text-left">Judge</th>
-              <th className="px-4 py-2 text-left">Verdict</th>
-              <th className="px-4 py-2 text-left">Reasoning</th>
-              <th className="px-4 py-2 text-left">Created</th>
-            </tr>
-          </thead>
-          <tbody>
-            {evaluations.map((e) => (
-              <tr
-                key={`${e.submissionId}-${e.questionId}-${e.judgeId}`}
-                className="border-t border-gray-300 dark:border-gray-700"
-              >
-                <td className="px-4 py-2">{e.submissionId}</td>
-                <td className="px-4 py-2">{e.questionText}</td>
-                <td className="px-4 py-2">{e.judgeName}</td>
-                <td
-                  className={`px-4 py-2 font-semibold ${
-                    e.verdict === "pass"
-                      ? "text-green-600 dark:text-green-400"
-                      : e.verdict === "fail"
-                      ? "text-red-600 dark:text-red-400"
-                      : "text-yellow-600 dark:text-yellow-400"
-                  }`}
-                >
-                  {e.verdict}
-                </td>
-                <td className="px-4 py-2">{e.reasoning}</td>
-                <td className="px-4 py-2">{e.createdAt}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <Filters         
+        evaluations={evaluations}
+        judgeFilter={judgeFilter}
+        setJudgeFilter={setJudgeFilter}
+        questionFilter={questionFilter}
+        setQuestionFilter={setQuestionFilter}
+        verdictFilter={verdictFilter}
+        setVerdictFilter={setVerdictFilter}
+        judgeOptions={judgeOptions}
+        questionOptions={questionOptions}
+      />
+      {!filteredEvaluations || filteredEvaluations.length === 0 ? (
+        <div className="p-6 min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 text-black dark:text-white">
+          No Results Found
+        </div>
+      ) : (
+        <ResultsTable evaluations={filteredEvaluations} />
+      )}
     </div>
   );
 };
 
-export default ResultsPage;
+export default ResultsPage
