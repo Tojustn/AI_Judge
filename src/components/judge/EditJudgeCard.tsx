@@ -13,6 +13,7 @@ const EditJudgeCard = ({ judge }: EditJudgeProps) => {
   const [targetModelName, setTargetModelName] = useState<TargetModelName>(
     judge.targetModelName as TargetModelName
   );
+  const [isActive, setIsActive] = useState(judge.active);
 
   const onModelChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTargetModelName(e.target.value as TargetModelName);
@@ -25,7 +26,7 @@ const EditJudgeCard = ({ judge }: EditJudgeProps) => {
         name: name,
         rubric: instructions,
         targetModelName: targetModelName,
-        active: true,
+        active: isActive,
         id: judge.id,
         createdAt: judge.createdAt,
       };
@@ -63,6 +64,18 @@ const EditJudgeCard = ({ judge }: EditJudgeProps) => {
           rows={3}
         />
       </div>
+
+<div className="my-5 flex items-center gap-2">
+  <input
+    type="checkbox"
+    checked={isActive}
+    onChange={() => setIsActive(!isActive)}
+  />
+  <label className="text-gray-700 dark:text-gray-300">
+    Active
+  </label>
+</div>
+
 
       <RadioComponent
         chosen={targetModelName}
