@@ -1,73 +1,28 @@
-# React + TypeScript + Vite
+# AI Judge
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
+AI Judge evaluates user-submitted answers using AI models. Each answer gets a verdict (`pass` / `fail` / `inconclusive`) and reasoning.
 
-Currently, two official plugins are available:
+## Features
+* Upload submissions JSON
+* Create, edit, activate AI Judges with custom prompts
+* Assign judges per question within queues
+* Run AI evaluations via **OpenAI GPT-4o Mini**
+* Results dashboard with filters and animated charts (Chart.js)
+* Real-time evaluation progress tracking
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Quick Start
+```bash
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Design Notes & Trade-offs
+* **Persistence:** Supabase stores submissions, judges, and evaluations
+* **LLM Security:** API keys stored server-side via Supabase Edge Functions  
+* **Architecture:** Queue-based workflow - judges run on entire queues, not individual submissions
+* **UI/UX:** Responsive design with loading states and error handling
+* **Deployment:** Single React app; runs with `npm run dev`
+* **Scope Cuts:** Only GPT-4o Mini supported; file attachments to LLM not implemented
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Time Spent
+**~16 hours** - Focused on core functionality and clean architecture.
