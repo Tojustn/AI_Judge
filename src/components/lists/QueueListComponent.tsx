@@ -10,7 +10,7 @@ const QueueList = ({ queues }: SubmissionProps) => {
   }
 
   return (
-    <div className="space-y-4 grid grid-cols-5">
+    <div className="space-x-4 grid grid-cols-5">
       {queues.map((queue) => (
         <QueueCard key={queue.id} queue={queue}></QueueCard>
       ))}

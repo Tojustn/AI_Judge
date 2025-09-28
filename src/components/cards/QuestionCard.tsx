@@ -1,6 +1,8 @@
-import type { Question, Judge } from "../../types/types";
+import type { Question, Judge, Answer} from "../../types/types";
 import JudgeCheckboxDropdown from "../JudgeCheckboxDropdown";
 import { useState } from "react";
+import { useAnswers } from "../../hooks/useAnswers";
+import AnswerDropdown from "../queue/AnswerDropdown";
 
 interface QuestionCardProps {
   question: Question;
@@ -15,6 +17,10 @@ export const QuestionCard = ({
   selectedJudges,
   onAssignmentChange,
 }: QuestionCardProps) => {
+
+  const {answers, loading, error} = useAnswers(question.id, question.queueId)
+  const [showAnswers, setShowAnswers] = useState<boolean>(false);
+
   return (
     <div className="border rounded-xl p-6 m-3 bg-white shadow-md hover:shadow-lg transition-shadow duration-300 dark:bg-gray-800 dark:text-white">
       <div className="flex justify-between items-center mb-4 flex-wrap">
@@ -32,6 +38,8 @@ export const QuestionCard = ({
         {question.questionText}
       </p>
 
+
+      <AnswerDropdown answers={answers} loading={loading} error={error}></AnswerDropdown>
       <JudgeCheckboxDropdown
         questionId={question.id}
         onAssignmentChange={onAssignmentChange}

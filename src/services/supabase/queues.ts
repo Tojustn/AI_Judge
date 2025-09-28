@@ -34,3 +34,15 @@ export const saveQueue = async (queue: Queue) => {
     throw new Error(error.message || "Error uploading queue");
   }
 };
+
+export const deleteQueue = async(queueId: string ) =>{
+  console.log(queueId)
+const response = await supabase
+  .from('queues')
+  .delete()
+  .eq('id', queueId)
+
+  if (response.status !== 204) {
+    throw new Error("Unsuccessful Delete")
+  }
+}

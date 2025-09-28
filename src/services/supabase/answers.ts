@@ -27,11 +27,12 @@ export const getAnswers = async () => {
   return data;
 };
 
-export const getAnswersByQuestionId = async (questionId: string) => {
+export const getAnswersByQuestionId = async (questionId: string, queueId: string) => {
   const { data, error } = await supabase
     .from("answers")
     .select("*")
-    .eq("questionId", questionId);
+    .eq("questionId", questionId)
+    .eq("queueId", queueId);
 
   if (error) {
     throw new Error(error.message || "Failed to fetch questions");
