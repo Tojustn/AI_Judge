@@ -9,7 +9,7 @@ AI Judge evaluates user-submitted answers using AI models. Each answer gets a ve
 * Assign judges per question within queues
 * Run AI evaluations via **OpenAI GPT-4o Mini**
 * Results dashboard with filters and animated charts (Chart.js)
-* Real-time evaluation progress tracking
+
 
 ## Quick Start
 ```bash
