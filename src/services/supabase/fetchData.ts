@@ -12,6 +12,8 @@ export const fetchEvaluationData = async (queueId: string) => {
   const tasks = [];
   
   for (const assignment of assignments) {
+    console.log(assignment)
+    if (assignment.judges.active === false) continue; 
     // Get the single answer for this question
     const answers = await getAnswersByQuestionId(assignment.questionId, queueId);
     
@@ -31,6 +33,7 @@ export const fetchEvaluationData = async (queueId: string) => {
       model: provider,
     });
   }
+
 
   return { tasks };
 };

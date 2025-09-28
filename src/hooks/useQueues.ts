@@ -27,5 +27,5 @@ export const useQueues = () => {
     fetchQueues();
   }, []);
 
-  return { queues, loading, error };
+  return { queues, setQueues,  loading, error };
 };

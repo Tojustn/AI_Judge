@@ -36,7 +36,7 @@ export interface Answer {
 
 export interface Queue {
   id: string;
-  createdAt: number;
+  createdAt?: number;
 }
 
 export interface Submission {
@@ -113,6 +113,8 @@ export interface Evaluation {
   submissionId: string | null;
   verdict: Verdict | null;    
   reasoning: string | null;
+  questionText: string | null;
+  answerText: string | null;
 }
 
 

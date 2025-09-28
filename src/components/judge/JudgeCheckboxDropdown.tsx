@@ -33,7 +33,13 @@ const JudgeCheckboxDropdown = ({
       >
         {isOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
         <span className="font-medium">
-          Judges ({selectedJudges.length} selected)
+Judges (
+  {
+    selectedJudges.filter(
+      judgeId => availableJudges.some(j => j.id === judgeId)
+    ).length
+  } selected)
+
         </span>
       </button>
 

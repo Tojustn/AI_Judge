@@ -3,9 +3,15 @@ import { handleFileUpload } from "../../services/utils/uploadFile";
 import { checkFileType } from "../../services/utils/fileUtils";
 import { Button } from "../common/Button";
 import { Upload } from "lucide-react";
+import LoadingState from "../common/LoadingState";
+import { type Queue } from "../../types/types";
 
-const FileUploadComponent = () => {
+interface FileUploadComponentProps {
+  onUpload: (newQueues: Queue[]) => void;
+}
+const FileUploadComponent = ({onUpload}: FileUploadComponentProps) => {
   const [file, setFile] = useState<File | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target;
@@ -15,6 +21,7 @@ const FileUploadComponent = () => {
 
   const handleFileSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+      setLoading(true);
     try {
       if (!file) {
         throw new Error("Please select a file to upload.");
@@ -23,13 +30,25 @@ const FileUploadComponent = () => {
         setFile(null);
         throw new Error("Invalid file type. Please upload a .json file.");
       }
-      await handleFileUpload(file);
+      const queueIds = await handleFileUpload(file);
+      const queuesWithCreatedAt: Queue[] = Array.isArray(queueIds)
+        ? queueIds.map(id => ({ id, createdAt: Date.now() }))
+        : [];
+      onUpload(queuesWithCreatedAt);
 
-      window.location.reload();
     } catch (error) {
       alert(error);
     }
+      setLoading(false)
   };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-32">
+        <LoadingState message="Uploading File"/>
+      </div>
+    );
+  }
 
   return (
     <div>

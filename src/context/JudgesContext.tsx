@@ -1,10 +1,11 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import type { Judge } from "../types/types";
 import type { ReactNode } from "react";
-import { getActiveJudges } from "../services/supabase/judges";
+import { getJudges } from "../services/supabase/judges";
 
 interface JudgeContextProps {
   judges: Judge[];
+  setJudges: React.Dispatch<React.SetStateAction<Judge[]>>;
   loadingJudges: boolean;
   error: string | null;
 }
@@ -21,7 +22,7 @@ export const JudgesProvider = ({ children }: { children: ReactNode }) => {
     const fetchJudges = async () => {
       try {
         setLoadingJudges(true);
-        const data = await getActiveJudges(); // Missing parentheses!
+        const data = await getJudges();
         setJudges(data);
         setError("");
       } catch (err) {
@@ -36,9 +37,8 @@ export const JudgesProvider = ({ children }: { children: ReactNode }) => {
     fetchJudges();
   }, []);
 
-  // Return statement was inside fetchJudges - moved outside!
   return (
-    <JudgesContext.Provider value={{ judges, loadingJudges, error }}>
+    <JudgesContext.Provider value={{ judges, setJudges, loadingJudges, error }}>
       {children}
     </JudgesContext.Provider>
   );

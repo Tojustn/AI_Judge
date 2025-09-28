@@ -1,6 +1,5 @@
 import type { Question, Judge} from "../../types/types";
 import JudgeCheckboxDropdown from "../judge/JudgeCheckboxDropdown";
-import { useState } from "react";
 import { useAnswers } from "../../hooks/useAnswers";
 import AnswerDropdown from "./AnswerDropdown";
 

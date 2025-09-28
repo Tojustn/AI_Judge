@@ -1,4 +1,4 @@
-import JudgeListComponent from "../lists/JudgeListComponent";
+import JudgeListComponent from "./JudgeListComponent";
 import LoadingState from "../common/LoadingState";
 import { Button } from "../common/Button";
 import type { Judge } from "../../types/types";
@@ -7,9 +7,10 @@ interface JudgesSectionProps {
   judges: Judge[];
   loading: boolean;
   onAddJudge: () => void;
+  onDelete: (id: string) => void;
 }
 
-const JudgesSection = ({ judges, loading, onAddJudge }: JudgesSectionProps) => {
+const JudgesSection = ({ judges, loading, onAddJudge, onDelete}: JudgesSectionProps) => {
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl shadow p-6">
       <div className="flex flex-row justify-between">
@@ -22,7 +23,7 @@ const JudgesSection = ({ judges, loading, onAddJudge }: JudgesSectionProps) => {
       {loading ? (
         <LoadingState message="Loading Judges" />
       ) : (
-        <JudgeListComponent judges={judges} />
+        <JudgeListComponent judges={judges} onDelete={onDelete} />
       )}
     </div>
   );

@@ -12,7 +12,6 @@ const SaveAssignmentsButton: React.FC<SaveAssignmentsButtonProps> = ({
     try {
       await saveQuestionsToJudges(assignments);
       alert("Successfully Assigned Judges");
-    window.location.reload()
     } catch (error) {
       alert(error);
     }

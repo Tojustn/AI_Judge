@@ -62,6 +62,7 @@ const ResultsPage = () => {
   ) : 0;
   const failed = filteredEvaluations.filter((e) => e.verdict === "fail").length;
 
+
   return (
     <div className="p-6 min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
       <h1 className="text-2xl font-bold mb-4">Evaluation Results</h1>
@@ -96,7 +97,7 @@ const ResultsPage = () => {
         questionOptions={questionOptions}
       />
       {!filteredEvaluations || filteredEvaluations.length === 0 ? (
-        <div className="p-6 min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 text-black dark:text-white">
+        <div className="p-6 min-h-screen flex  justify-center bg-gray-100 dark:bg-gray-900 text-black dark:text-white">
           No Results Found
         </div>
       ) : (

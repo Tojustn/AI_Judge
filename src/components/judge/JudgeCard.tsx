@@ -6,9 +6,10 @@ import Modal from "../common/Modal";
 
 interface JudgeProps {
   judge: Judge;
+  onDelete: (id: string) => void;
 }
 
-export const JudgeCard = ({ judge }: JudgeProps) => {
+export const JudgeCard = ({ judge, onDelete}: JudgeProps) => {
   const [editJudge, setEditJudge] = useState(false);
 
   const handleDelete = async () => {
@@ -18,7 +19,7 @@ export const JudgeCard = ({ judge }: JudgeProps) => {
     if (confirmed) {
       try {
         await deleteJudge(judge.id);
-        window.location.reload();
+        onDelete(judge.id)
       } catch (error) {
         alert(error);
       }
@@ -27,13 +28,21 @@ export const JudgeCard = ({ judge }: JudgeProps) => {
 
   return (
     <div>
-      <div className="border rounded p-4 m-2 bg-white shadow">
-        <h2 className="text-lg font-bold">{judge.name}</h2>
-        <p className="text-gray-600">Using: {judge.targetModelName}</p>
-        <button onClick={() => setEditJudge(true)} className="text-gray-600">
+      <div className="border rounded p-4 m-2 bg-white dark:bg-gray-800 shadow">
+        <h2 className="text-lg font-bold text-gray-800 dark:text-white">{judge.name}</h2>
+        <p className="text-gray-600 dark:text-gray-300">Using: {judge.targetModelName}</p>
+
+        <button
+          onClick={() => setEditJudge(true)}
+          className="text-blue-600 dark:text-blue-400 hover:underline mt-2"
+        >
           Edit
         </button>
-        <p className="text-red-600 hover:cursor-pointer" onClick={handleDelete}>
+
+        <p
+          className="text-red-600 dark:text-red-400 hover:cursor-pointer mt-2"
+          onClick={handleDelete}
+        >
           <strong>Delete</strong>
         </p>
       </div>

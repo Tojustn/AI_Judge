@@ -14,6 +14,7 @@ interface QuestionListProps {
 
 const QuestionListComponent = ({ queueId, questions, setLoading}: QuestionListProps) => {
   const { judges } = useJudges();
+  const availableJudges = judges.filter(j => j.active);
   const { assignments, updateAssignment, loading } = useQuestionAssignments(
     queueId,
     questions
@@ -43,7 +44,7 @@ const QuestionListComponent = ({ queueId, questions, setLoading}: QuestionListPr
             key={submissionId}
             submissionId={submissionId}
             questions={submissionQuestions}
-            judges={judges}
+            judges={availableJudges}
             assignments={assignments}
             updateAssignment={updateAssignment}
             queueId={queueId}
@@ -51,7 +52,7 @@ const QuestionListComponent = ({ queueId, questions, setLoading}: QuestionListPr
         ))}
       </div>
       
-      <div className="flex gap-4 mt-4">
+      <div className="flex gap-4 m-5">
         <SaveAssignmentsButton assignments={assignments} />
         <RunEvaluationsButton queueId={queueId} setLoading={setLoading}/>
       </div>

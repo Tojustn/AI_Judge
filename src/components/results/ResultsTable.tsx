@@ -1,4 +1,3 @@
-import React from "react";
 import { useJudges } from "../../context/JudgesContext";
 import type { Evaluation } from "../../types/types";
 
@@ -46,7 +45,7 @@ const verdictColor = (verdict: Evaluation["verdict"]) => {
         className="border-t border-gray-300 dark:border-gray-700"
       >
         <td className="px-4 py-2">{evaluation.submissionId ?? "-"}</td>
-        <td className="px-4 py-2">{evaluation.questionId ?? "-"}</td>
+        <td className="px-4 py-2">{evaluation.questionText ?? "-"}</td>
         <td className="px-4 py-2">{judgeName}</td>
         <td
           className={`px-4 py-2 font-semibold ${verdictColor(
@@ -56,7 +55,8 @@ const verdictColor = (verdict: Evaluation["verdict"]) => {
           {evaluation.verdict ?? "pending"}
         </td>
         <td className="px-4 py-2">{evaluation.reasoning ?? "-"}</td>
-        <td className="px-4 py-2">{evaluation.createdAt}</td>
+      <td className="px-4 py-2">{new Date(evaluation.createdAt).toLocaleString()}</td>
+
       </tr>
     );
   })}

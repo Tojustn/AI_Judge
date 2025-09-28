@@ -4,27 +4,28 @@ import { deleteQueue } from "../../services/supabase/queues";
 
 interface QueueCardProps {
   queue: Queue;
+  onDelete: (id: string) => void;
 }
-const QueueCard = ({ queue }: QueueCardProps) => {
+const QueueCard = ({ queue, onDelete }: QueueCardProps) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
     navigate(`/queues/${queue.id}/`);
   };
 
-const handleDeleteQueue = async () => {
-  const confirmed = window.confirm("Are you sure you want to delete this queue?");
-  if (!confirmed) return;
+  const handleDeleteQueue = async () => {
+    const confirmed = window.confirm("Are you sure you want to delete this queue?");
+    if (!confirmed) return;
 
-  try {
-    await deleteQueue(queue.id);
-    alert("Queue deleted successfully.");
-    window.location.reload();
-  } catch (err) {
-    console.error("Error deleting queue:", err);
-    alert("Failed to delete the queue.");
-  }
-};
+    try {
+      await deleteQueue(queue.id);
+      onDelete(queue.id); // update state in parent
+      alert("Queue deleted successfully.");
+    } catch (err) {
+      console.error("Error deleting queue:", err);
+      alert("Failed to delete the queue.");
+    }
+  };
   return (
     <div
       className="cursor-pointer block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"

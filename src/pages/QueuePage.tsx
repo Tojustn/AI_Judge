@@ -4,7 +4,6 @@ import { useState } from "react";
 import LoadingState from "../components/common/LoadingState";
 import { useQueueDetails } from "../hooks/useQueueDetails";
 import { useNavigate } from "react-router-dom";
-import RunEvaluationsButton from "../components/queue/RunEvaluationsButton";
 
 const QueuePage = () => {
   const { queueId } = useParams<{ queueId: string }>();
@@ -20,34 +19,33 @@ const QueuePage = () => {
     );
   }
 
-  return (
-    <div className="min-h-screen w-full dark:bg-gray-900 dark:text-white flex flex-col">
-      {loading || runningEval ? (
-        <div className="flex items-center justify-center h-full">
-          <LoadingState 
-            message={loading ? "Fetching Queue..." : "Running Evaluations..."} 
+return (
+  <div className="min-h-screen w-full dark:bg-gray-900 dark:text-white flex flex-col">
+    {loading || runningEval ? (
+      <div className="flex-1 flex items-center justify-center">
+        <LoadingState 
+          message={loading ? "Fetching Queue..." : "Running Evaluations..."} 
+        />
+      </div>
+    ) : (
+      <div className="flex-1 flex flex-col">
+        <div className="flex flex-row justify-between px-5 py-3">
+          <h1 className="text-xl">{queueId}</h1>
+          <button onClick={() => navigate("/")}>Back</button>
+        </div>
+
+        {queueId && (
+          <QuestionListComponent 
+            setLoading={setRunningEval} 
+            queueId={queueId} 
+            questions={questions} 
           />
-        </div>
-      ) : (
-        <div className="h-full w-full flex flex-col">
-          <div className="flex flex-row justify-between">
-            <h1 className="text-xl mx-5">{queueId}</h1>
-            <button onClick={() => navigate("/")}>
+        )}
+      </div>
+    )}
+  </div>
+);
 
-            </button>
-          </div>
-
-          {queueId && (
-            <QuestionListComponent 
-              setLoading={setRunningEval} 
-              queueId={queueId} 
-              questions={questions} 
-            />
-          )}
-        </div>
-      )}
-    </div>
-  );
 };
 
 export default QueuePage;

@@ -16,6 +16,7 @@ export const saveEvaluations = async (AIResponses: any[]) => {
 
   const evaluationsToInsert = successfulResponses.map((resp) => {
     const [submissionId, questionId] = JSON.parse(resp.taskId);
+    const questionText = resp.questionText;
     const { verdict, reasoning } = resp.evaluation;
 
     return {
@@ -24,6 +25,7 @@ export const saveEvaluations = async (AIResponses: any[]) => {
       questionId: questionId,
       verdict,
       reasoning,
+      questionText,
     };
   });
 
