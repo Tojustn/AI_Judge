@@ -1,5 +1,5 @@
 import type { Question } from "../../types/types";
-import { QuestionCard } from "./QuestionCard";
+import { SubmissionCard } from "./SubmissionCard";
 import { useQuestionAssignments } from "../../hooks/useQuestionAssignments";
 import SaveAssignmentsButton from "../queue/SaveAssignmentsButton";
 import RunEvaluationsButton from "../queue/RunEvaluationsButton";
@@ -14,7 +14,6 @@ interface QuestionListProps {
 
 const QuestionListComponent = ({ queueId, questions, setLoading}: QuestionListProps) => {
   const { judges } = useJudges();
-
   const { assignments, updateAssignment, loading } = useQuestionAssignments(
     queueId,
     questions
@@ -22,31 +21,36 @@ const QuestionListComponent = ({ queueId, questions, setLoading}: QuestionListPr
 
   if (loading)
     return <LoadingState message="Loading Assignments... "></LoadingState>;
+
   if (!questions || questions.length === 0)
     return <div>No questions to display.</div>;
 
+  // Group questions by submission ID
+  const questionsBySubmission = questions.reduce((acc, question) => {
+    const submissionId = question.submissionId;
+    if (!acc[submissionId]) {
+      acc[submissionId] = [];
+    }
+    acc[submissionId].push(question);
+    return acc;
+  }, {} as Record<string, Question[]>);
+
   return (
     <div className="flex flex-col h-full justify-between">
-      <div className="grid grid-cols-5 gap-4">
-        {questions.map((question) => {
-          const key = JSON.stringify([queueId, question.id]);
-          const selectedJudges = assignments.get(key) || [];
-
-          return (
-            <QuestionCard
-              key={question.id}
-              question={question}
-              judges={judges}
-              selectedJudges={selectedJudges}
-              onAssignmentChange={(questionId: string, judgeIds: string[]) => {
-                // we already know the questionId, so just use it
-                updateAssignment(questionId, judgeIds);
-              }}
-            />
-          );
-        })}
+      <div className="space-y-6">
+        {Object.entries(questionsBySubmission).map(([submissionId, submissionQuestions]) => (
+          <SubmissionCard
+            key={submissionId}
+            submissionId={submissionId}
+            questions={submissionQuestions}
+            judges={judges}
+            assignments={assignments}
+            updateAssignment={updateAssignment}
+            queueId={queueId}
+          />
+        ))}
       </div>
-
+      
       <div className="flex gap-4 mt-4">
         <SaveAssignmentsButton assignments={assignments} />
         <RunEvaluationsButton queueId={queueId} setLoading={setLoading}/>

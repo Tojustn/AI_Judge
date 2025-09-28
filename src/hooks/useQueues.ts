@@ -13,7 +13,6 @@ export const useQueues = () => {
         setLoading(true);
         setError(null);
         const queues = await getQueues();
-        console.log(queues);
         setQueues(queues || []);
       } catch (err) {
         const errorMessage =
