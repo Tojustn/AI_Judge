@@ -9,7 +9,7 @@ AI Judge evaluates user-submitted answers using AI models. Each answer gets a ve
 
 - **LLM Security:** API keys are stored server-side via Supabase Edge Functions. This prevents exposing sensitive keys in the frontend, which is critical for security.
 
-- **Architecture / Workflow:** Evaluations run queue-by-queue instead of per submission. This reduces unnecessary API calls and ensures consistent processing across a queue.
+- **Architecture / Workflow:** Workflow shows questions per queue instead of per submission. Gives a better picture of the evaluation structure since they run per queue.
 
 - **Scope Cuts / Feature Decisions:**  
   - Only **GPT-4o Mini** is supported, as it is the most cost effective (I already had some tokens).  
