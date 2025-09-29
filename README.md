@@ -5,7 +5,7 @@ AI Judge evaluates user-submitted answers using AI models. Each answer gets a ve
 
 ## Design Notes & Trade-offs
 
-- **Persistence:** Submissions, judges, and evaluations are stored in Supabase. This ensures data survives page reloads and allows multi-user access without building a separate backend.
+- **Persistence:** Submissions, judges, and evaluations are stored in Supabase. This ensures data persistence.
 
 - **LLM Security:** API keys are stored server-side via Supabase Edge Functions. This prevents exposing sensitive keys in the frontend, which is critical for security.
 
@@ -15,6 +15,7 @@ AI Judge evaluates user-submitted answers using AI models. Each answer gets a ve
   - Only **GPT-4o Mini** is supported, as it is the most cost effective (I already had some tokens).  
   - File attachments (screenshots, PDFs) are not sent to the LLM. Supporting this would require additional API handling.  
   - Sequential processing was chosen to simplify progress tracking.
+  - No user authentication this would take away from focusing on core functionality 
 
 - **Database Modeling:** Questions use a composite foreign key `(questionId, queueId)` so multiple queues can reuse the same question templates without duplication.
 
