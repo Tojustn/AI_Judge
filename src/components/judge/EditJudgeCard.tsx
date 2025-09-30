@@ -5,9 +5,10 @@ import { updateJudge } from "../../services/supabase/judges";
 
 interface EditJudgeProps {
   judge: Judge;
+  setEditJudge: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const EditJudgeCard = ({ judge }: EditJudgeProps) => {
+const EditJudgeCard = ({ judge, setEditJudge }: EditJudgeProps) => {
   const [name, setName] = useState(judge.name);
   const [instructions, setInstructions] = useState(judge.rubric);
   const [targetModelName, setTargetModelName] = useState<TargetModelName>(
@@ -32,6 +33,8 @@ const EditJudgeCard = ({ judge }: EditJudgeProps) => {
       };
       await updateJudge(updatedJudge);
       alert("Successfully updated Judge");
+      window.location.reload()
+
     } catch (error) {
       alert(error);
     }

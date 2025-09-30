@@ -52,7 +52,7 @@ export const JudgeCard = ({ judge, onDelete}: JudgeProps) => {
         onClose={() => setEditJudge(false)}
         title="Edit Judge"
       >
-        <EditJudgeCard judge={judge} />
+        <EditJudgeCard judge={judge} setEditJudge={setEditJudge}/>
       </Modal>
     </div>
   );

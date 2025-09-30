@@ -17,6 +17,9 @@ export const QuestionCard = ({
   onAssignmentChange,
 }: QuestionCardProps) => {
 
+  const availableJudges = judges.filter(j => j.active);
+
+
   const {answers, loading, error} = useAnswers(question.id, question.queueId)
 
   return (
@@ -41,7 +44,7 @@ export const QuestionCard = ({
       <JudgeCheckboxDropdown
         questionId={question.id}
         onAssignmentChange={onAssignmentChange}
-        availableJudges={judges}
+        availableJudges={availableJudges}
         selectedJudges={selectedJudges}
       />
 
