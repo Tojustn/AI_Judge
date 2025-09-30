@@ -103,6 +103,6 @@ export const handleFileUpload = async (file: File) => {
 
     await saveMultipleAnswers(answersToInsert);
 
-    return(uniqueQueueIds)
   }
+  return uniqueQueueIds
 };
