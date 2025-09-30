@@ -32,7 +32,6 @@ const EditJudgeCard = ({ judge }: EditJudgeProps) => {
       };
       await updateJudge(updatedJudge);
       alert("Successfully updated Judge");
-      window.location.reload();
     } catch (error) {
       alert(error);
     }

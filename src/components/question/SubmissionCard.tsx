@@ -1,6 +1,5 @@
 import type { Question } from "../../types/types";
 import { QuestionCard } from "./QuestionCard";
-import { useJudges } from "../../context/JudgesContext";
 
 interface SubmissionCardProps {
   submissionId: string;

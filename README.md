@@ -25,4 +25,4 @@ npm run dev
 * **Scope Cuts:** Only GPT-4o Mini supported; file attachments to LLM not implemented
 
 ## Time Spent
-**~16 hours** - Focused on core functionality and clean architecture.
+**~16 hours** - Focused on core functionalities and Database Integration

@@ -25,10 +25,14 @@ const HomePage = () => {
     setQueues(prev => prev.filter(q => q.id !== id));
   };
 
+
+// So the page doesnt have to reload, keep a useState list of Queues
 const handleUploadSuccess = (newQueues: Queue[]) => {
   if (!newQueues) return; 
 
   setQueues((prev) => {
+    
+    // Checks if a queue exists or not if it does ensures no queues duplication
     const uniqueNewQueues = newQueues.filter(
       (q) => !prev.some((existing) => existing.id === q.id)
     );

@@ -89,6 +89,7 @@ export const handleFileUpload = async (file: File) => {
 
     await saveMultipleQuestions(questionsToInsert);
 
+    // entries converts questionId: {answer_stuff} into key values pairs
     const answersToInsert = Object.entries(submissionData.answers).map(
       ([questionId, answerData]) => ({
         id: generateId(),

@@ -29,7 +29,6 @@ const AddJudgeCard = ({ changeState }: AddJudgeCardProps) => {
       };
       await saveJudge(judge);
       changeState(false);
-      window.location.reload();
     } catch (error) {
       alert(error);
     }
