@@ -1,10 +1,11 @@
 import type { Question } from "../../types/types";
 import { QuestionCard } from "./QuestionCard";
+import { type Judge } from "../../types/types";
 
 interface SubmissionCardProps {
   submissionId: string;
   questions: Question[];
-  judges: any[];
+  judges: Judge[];
   assignments: Map<string, string[]>;
   updateAssignment: (questionId: string, judgeIds: string[]) => void;
   queueId: string;

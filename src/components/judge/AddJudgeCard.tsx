@@ -5,9 +5,10 @@ import { generateId } from "../../services/utils/generate_id";
 import { saveJudge } from "../../services/supabase/judges";
 interface AddJudgeCardProps {
   changeState: React.Dispatch<React.SetStateAction<boolean>>;
+  onAddJudge: (judge: Judge) => void;
 }
 
-const AddJudgeCard = ({ changeState }: AddJudgeCardProps) => {
+const AddJudgeCard = ({ changeState, onAddJudge}: AddJudgeCardProps) => {
   const nameRef = useRef<HTMLInputElement>(null);
   const instructionRef = useRef<HTMLTextAreaElement>(null);
   const [targetModelName, setTargetModelName] =
@@ -28,6 +29,7 @@ const AddJudgeCard = ({ changeState }: AddJudgeCardProps) => {
         createdAt: Date.now(),
       };
       await saveJudge(judge);
+      onAddJudge(judge); 
       changeState(false);
     } catch (error) {
       alert(error);

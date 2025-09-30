@@ -6,7 +6,7 @@ import Modal from "../components/common/Modal";
 import AddJudgeCard from "../components/judge/AddJudgeCard";
 import { useJudges } from "../context/JudgesContext";
 import { useQueues } from "../hooks/useQueues";
-import type { Queue } from "../types/types";
+import type { Judge, Queue } from "../types/types";
 const HomePage = () => {
   const [judgeCard, setJudgeCard] = useState<boolean>(false);
   const { judges, setJudges, loadingJudges } = useJudges();
@@ -26,6 +26,9 @@ const HomePage = () => {
   };
 
 
+  const AddJudgeToState = (judge: Judge) =>{
+    setJudges((prev)=> [...prev, judge])
+  }
 // So the page doesnt have to reload, keep a useState list of Queues
 const handleUploadSuccess = (newQueues: Queue[]) => {
   if (!newQueues) return; 
@@ -60,7 +63,7 @@ const handleUploadSuccess = (newQueues: Queue[]) => {
       />
 
       <Modal isOpen={judgeCard} onClose={handleCloseJudgeCard}>
-        <AddJudgeCard changeState={setJudgeCard} />
+        <AddJudgeCard changeState={setJudgeCard} onAddJudge={AddJudgeToState}/>
       </Modal>
     </div>
   );
