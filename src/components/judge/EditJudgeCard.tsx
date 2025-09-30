@@ -8,7 +8,7 @@ interface EditJudgeProps {
   setEditJudge: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const EditJudgeCard = ({ judge, setEditJudge }: EditJudgeProps) => {
+const EditJudgeCard = ({ judge }: EditJudgeProps) => {
   const [name, setName] = useState(judge.name);
   const [instructions, setInstructions] = useState(judge.rubric);
   const [targetModelName, setTargetModelName] = useState<TargetModelName>(
