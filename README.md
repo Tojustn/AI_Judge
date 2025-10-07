@@ -20,6 +20,3 @@ AI Judge evaluates user-submitted answers using AI models. Each answer gets a ve
 - **Database Modeling:** Questions use a composite foreign key `(questionId, queueId)` so multiple queues can reuse the same question templates without duplication.
 
 - **Deployment:** The entire app runs as a single React project (`npm run dev`); no extra backend server is required aside from Supabase. As per the deliverables
-
-## Time Spent
-**~16 hours** - Focused on core functionalities and Database Integration
