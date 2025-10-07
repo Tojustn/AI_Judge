@@ -31,6 +31,9 @@ const FileUploadComponent = ({onUpload}: FileUploadComponentProps) => {
         throw new Error("Invalid file type. Please upload a .json file.");
       }
       const queueIds = await handleFileUpload(file);
+      
+
+      // So we can upload queues without reloading the page
       const queuesWithCreatedAt: Queue[] = Array.isArray(queueIds)
         ? queueIds.map(id => ({ id, createdAt: Date.now() }))
         : [];
